@@ -4,14 +4,14 @@ Painel pessoal para acompanhar candidaturas, com dados armazenados no Supabase.
 
 ## Configuração local
 
-1. Copie `config.example.js` para `config.js`.
-2. Preencha `config.js` com a URL e a chave **publicável** do Supabase.
+1. Copie `.env.example` para `.env.local`.
+2. Preencha `.env.local` com a URL e a chave **publicável** do Supabase.
 3. Execute `database/schema.sql` no SQL Editor do Supabase.
-4. Abra `index.html` por um servidor local ou publique o diretório.
+4. `npm install` e `npm run dev`. Para produção: `npm run build` (saída em `dist/`).
 
 Se a tabela já existir, execute novamente o `database/schema.sql`: ele adiciona as colunas `origin` e `link`, define `Brasileira` para registros antigos, atualiza as etapas de entrevista e habilita a edição de candidaturas.
 
-`config.js` está no `.gitignore` e não deve ser commitado. A chave publicável do Supabase não é um segredo administrativo, mas mantê-la fora do repositório evita acoplamento ao projeto e facilita trocar de ambiente.
+`.env.local` está no `.gitignore` e não deve ser commitado. A chave publicável do Supabase não é um segredo administrativo, mas mantê-la fora do repositório evita acoplamento ao projeto e facilita trocar de ambiente.
 
 Nunca use neste projeto:
 
