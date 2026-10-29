@@ -6,6 +6,8 @@ import { JobDetailsModal } from './components/JobDetailsModal'
 import { JobFormModal } from './components/JobFormModal'
 import { KanbanBoard } from './components/KanbanBoard'
 import { Stats } from './components/Stats'
+import { LoginPage } from './components/LoginPage'
+import { AuthProvider, useAuth } from './hooks/useAuth'
 import { useJobs } from './hooks/useJobs'
 import { isConfigured } from './lib/supabase'
 import { STATUSES, type Status } from './types'
@@ -26,7 +28,17 @@ function MissingConfig() {
 
 export default function App() {
   if (!isConfigured) return <MissingConfig />
-  return <Dashboard />
+  return (
+    <AuthProvider>
+      <AuthGate />
+    </AuthProvider>
+  )
+}
+
+function AuthGate() {
+  const { user, loading } = useAuth()
+  if (loading) return <div className="min-h-screen bg-[#f7f8fc]" />
+  return user ? <Dashboard /> : <LoginPage />
 }
 
 function Dashboard() {

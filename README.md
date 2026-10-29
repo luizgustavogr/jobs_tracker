@@ -19,6 +19,13 @@ Nunca use neste projeto:
 - senha do banco;
 - tokens administrativos.
 
-## Limitação do modo sem login
+## Login com Google
 
-O modo atual é deliberadamente sem autenticação. As políticas em `database/schema.sql` permitem que qualquer pessoa que encontre o site leia, crie e exclua candidaturas. Isso é aceitável apenas para um painel pessoal não público. Para publicar na internet com privacidade, reative o login e restrinja as políticas por `auth.uid()`.
+O app usa o Supabase Auth com o provedor Google, e as políticas de RLS em `database/schema.sql` restringem cada candidatura ao seu dono (`auth.uid() = user_id`).
+
+1. No [Google Cloud Console](https://console.cloud.google.com/apis/credentials), crie um **OAuth client ID** do tipo *Web application*.
+   - **Authorized redirect URI**: `https://<seu-projeto>.supabase.co/auth/v1/callback`
+2. No Supabase, em **Authentication → Providers → Google**, ative o provedor e informe o Client ID e o Client Secret.
+3. Em **Authentication → URL Configuration**, defina o **Site URL** e adicione em **Redirect URLs** `http://localhost:5173` e a URL de produção.
+4. Execute `database/schema.sql` no SQL Editor.
+5. Candidaturas antigas ficam sem dono (e invisíveis). Depois do primeiro login, atribua-as a você com o `update` comentado no `schema.sql`.
